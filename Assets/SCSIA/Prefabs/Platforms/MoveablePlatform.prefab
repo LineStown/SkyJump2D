@@ -116,7 +116,7 @@ MonoBehaviour:
   _platformBonusSpawnPoint: {fileID: 8344907112428901082}
   _platformEnemySpawnPoint: {fileID: 8719621958078266944}
   _platformRigitbody: {fileID: -1486086842480929464}
-  _minSpeed: 1
+  _minSpeed: 2
   _maxSpeed: 5
 --- !u!1 &3651439222150546777
 GameObject:
