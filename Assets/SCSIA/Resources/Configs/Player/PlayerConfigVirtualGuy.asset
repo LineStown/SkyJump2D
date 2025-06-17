@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PlayerConfigVirtualGuy
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 10
+  jumpForce: 8
+  boost: 2
   animatorController: {fileID: 22100000, guid: 8b1ec527a93ca194f9dfc8cea37c75c1, type: 2}

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerConfigPinkMan
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 10
-  boostMultiply: 1.5
+  jumpForce: 8
+  boost: 2
   animatorController: {fileID: 22100000, guid: f157dd27b8cd1d0458b7414f4dba5139, type: 2}

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PlayerConfigNinjaFrog
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 10
+  jumpForce: 8
+  boost: 2
   animatorController: {fileID: 22100000, guid: ea02b32e2bf42fc4b9bc44070699cf7d, type: 2}

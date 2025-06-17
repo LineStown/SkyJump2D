@@ -13,6 +13,8 @@ namespace SCSIA
 
         // player configs
         private Dictionary<PlayerConfigId, PlayerConfig> _playerConfigs;
+        // platform spawner configs
+        private Dictionary<PlatformSpawnerConfigId, PlatformSpawnerConfig> _platformSpawnerConfigs;
 
         //############################################################################################
         // PROPERTIES
@@ -26,10 +28,31 @@ namespace SCSIA
         public PlayerConfig GetPlayerConfig(PlayerConfigId playerConfigId)
         {
             if (_playerConfigs.TryGetValue(playerConfigId, out PlayerConfig value))
-            {
                 return value;
-            }
             return null;
+        }
+
+        // get platform spawner config
+        public PlatformSpawnerConfig GetPlatformSpawnerConfig(PlatformSpawnerConfigId platformSpawnerConfigId)
+        {
+            if (_platformSpawnerConfigs.TryGetValue(platformSpawnerConfigId, out PlatformSpawnerConfig value))
+                return value;
+            return null;
+        }
+
+        public float GetScreenMinX()
+        {
+            return Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;
+        }
+
+        public float GetScreenMaxX()
+        {
+            return Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+        }
+
+        public float GetScreenWidth()
+        {
+            return GetScreenMaxX() - GetScreenMinX();
         }
 
         //############################################################################################
@@ -50,6 +73,8 @@ namespace SCSIA
 
             // load player configs
             LoadPlayerConfigs();
+            // load platform spawner configs
+            LoadPlatformSpawnerConfigs();
 
             // start game
             SceneManager.LoadScene(_startScene);
@@ -64,6 +89,15 @@ namespace SCSIA
                 { PlayerConfigId.NinjaFrog, Resources.Load<PlayerConfig>("Configs/Player/PlayerConfigNinjaFrog") },
                 { PlayerConfigId.PinkMan, Resources.Load<PlayerConfig>("Configs/Player/PlayerConfigPinkMan") },
                 { PlayerConfigId.VirtualGuy, Resources.Load<PlayerConfig>("Configs/Player/PlayerConfigVirtualGuy") }
+            };
+        }
+
+        // load platform spawner configs
+        private void LoadPlatformSpawnerConfigs()
+        {
+            _platformSpawnerConfigs = new Dictionary<PlatformSpawnerConfigId, PlatformSpawnerConfig>()
+            {
+                { PlatformSpawnerConfigId.Level1, Resources.Load<PlatformSpawnerConfig>("Configs/PlatformSpawner/PlatformSpawnerConfigLevel1") }
             };
         }
     }

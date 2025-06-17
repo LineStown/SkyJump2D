@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerConfigMaskDude
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 10
-  boostMultiply: 1.5
+  jumpForce: 8
+  boost: 2
   animatorController: {fileID: 22100000, guid: dee3cf5638a351e4abd10c096aa829fd, type: 2}
