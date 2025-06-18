@@ -20,27 +20,18 @@ namespace SCSIA
         private float _speed;
         private int _direction;
 
-        private Vector2 _targetPosition;
-        private Vector2 _leftPosition;
-        private Vector2 _rightPosition;
-
         //############################################################################################
         // PUBLIC  METHODS
         //############################################################################################
-        // preplace setup
-        public override void PrePlaceSetup(PlatformPlace platformPlace)
+        public override bool SetupPlatform(ref PlatformPlace platformPlace)
         {
+            platformPlace.minX += _platformRendererWidth / 2f;
+            platformPlace.maxX -= _platformRendererWidth / 2f;
+            platformPlace.width = platformPlace.maxX - platformPlace.minX;
             _platformPlace = platformPlace;
-        }
-
-        // postplace setup
-        public override void PostPlaceSetup()
-        {
             _speed = Random.Range(_minSpeed, _maxSpeed);
             _direction = Random.Range(0, 2) * 2 - 1;
-            _leftPosition = new Vector2(_platformPlace.minX, this._platformRigitbody.position.y);
-            _rightPosition = new Vector2(_platformPlace.maxX, this._platformRigitbody.position.y);
-            _targetPosition = _leftPosition;
+            return (platformPlace.width > _platformRendererWidth);
         }
 
         // platform place point
@@ -54,12 +45,11 @@ namespace SCSIA
         // fixed update
         private void FixedUpdate()
         {
-            Vector2 current_position = _platformRigitbody.position;
-            Vector2 direction = (_targetPosition - current_position).normalized;
-            _platformRigitbody.linearVelocity = direction * _speed;
-            if (Vector2.Distance(current_position, _targetPosition) <= 0.1)
-                _targetPosition = _targetPosition == _leftPosition ? _rightPosition : _leftPosition;
-          
+            _platformRigitbody.linearVelocityX = _direction * _speed;
+            if (_platformRigitbody.position.x <= _platformPlace.minX)
+                _direction = 1;
+            if(_platformRigitbody.position.x >= _platformPlace.maxX)
+                _direction = -1;
         }
     }
 }

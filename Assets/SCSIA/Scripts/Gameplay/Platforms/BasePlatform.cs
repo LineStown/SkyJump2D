@@ -7,13 +7,13 @@ namespace SCSIA
         //############################################################################################
         // FIELDS
         //############################################################################################
-        [SerializeField] private GameObject[] _platformRendererPrefabs;
-        [SerializeField] private Transform _platformRendererSpawnPoint;
-        [SerializeField] private Transform _platformBonusSpawnPoint;
-        [SerializeField] private Transform _platformEnemySpawnPoint;
+        [SerializeField] protected GameObject[] _platformRendererPrefabs;
+        [SerializeField] protected Transform _platformRendererSpawnPoint;
+        [SerializeField] protected Transform _platformBonusSpawnPoint;
+        [SerializeField] protected Transform _platformEnemySpawnPoint;
 
-        private int _platformRendererType;
-        private float _platformRendererWidth;
+        protected int _platformRendererType;
+        protected float _platformRendererWidth;
         //############################################################################################
         // PROPERTIES
         //############################################################################################
@@ -23,18 +23,19 @@ namespace SCSIA
         //############################################################################################
         // PUBLIC  METHODS
         //############################################################################################
+        public virtual bool SetupPlatform(ref PlatformPlace platformPlace)
+        {
+            platformPlace.minX += _platformRendererWidth / 2f;
+            platformPlace.maxX -= _platformRendererWidth / 2f;
+            platformPlace.width = platformPlace.maxX - platformPlace.minX;
+            return (platformPlace.width > _platformRendererWidth);
+        }
+        
         // player landed to platform
         public virtual void PlayedLanded() 
         { }
         // player took off from platform 
         public virtual void PlayerTookOff()
-        { }
-
-        // preplace setup
-        public virtual void PrePlaceSetup(PlatformPlace platformPlace)
-        { }
-        // postplace setup
-        public virtual void PostPlaceSetup()
         { }
 
         // platform renderer width

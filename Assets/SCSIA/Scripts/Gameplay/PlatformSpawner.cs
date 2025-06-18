@@ -108,27 +108,21 @@ namespace SCSIA
                     if (platformGroup.Count() == maxPlatformsByCurrentStage)
                         break;
                     // prepare new platform
-                    BasePlatform platform = GetPlatformFromPool(Random.Range(0, _platformPrefabs.Count()));
                     PlatformPlace maxAvailableFreePlace = GetMaxAvailableFreePlace(platformGroup);
-                    // fix place according to place (screen side or another platform side)
-                    maxAvailableFreePlace.minX += platform.GetRendererWidth() / 2;
-                    maxAvailableFreePlace.maxX -= platform.GetRendererWidth() / 2;
-                    // not enough available free space for platform on current stage 
-                    if (maxAvailableFreePlace.width < platform.GetRendererWidth())
+                    BasePlatform platform = GetPlatformFromPool(Random.Range(0, _platformPrefabs.Count()));
+                    if (!platform.SetupPlatform(ref maxAvailableFreePlace))
                     {
                         ReturnPlatformToPool(platform);
                         break;
                     }
-                    platform.PrePlaceSetup(maxAvailableFreePlace);
-                    // generate X with option part of platform offscreen
+                    // generate X
                     float platformX = Random.Range(maxAvailableFreePlace.minX, maxAvailableFreePlace.maxX);
                     // generate Y
                     float platformY = ((_platformOnline.Count() == 0) ? _bottomTarget : ((direction == 1) ? _platformOnline.Last().First().transform : _platformOnline.First().First().transform)).position.y;
                     platformY += Random.Range(_platformSpawnerConfig.platformMinYFromPrevious, _platformSpawnerConfig.platformMaxYFromPrevious) * direction;
                     platform.transform.position = new Vector3(platformX, platformY, 0);
-                    platform.PostPlaceSetup();
-                    platform.Stage = nextStage;
                     platform.gameObject.SetActive(true);
+                    platform.Stage = nextStage;
                     platformGroup.Add(platform);
                 }
                 if (direction == 1)
@@ -183,7 +177,6 @@ namespace SCSIA
                 result.Set(_screenMinX, _screenMaxX);
             else
             {
-                Debug.Log("------------------------------------------------------------------");
                 // create list with points
                 List<PlatformPlacePoint> testList = new List<PlatformPlacePoint>();
                 // first and last point on the screen
@@ -199,12 +192,10 @@ namespace SCSIA
                 for (int i = 1; i < testList.Count(); i++)
                 {
                     tmpPlace.Set(testList[i - 1].x + testList[i - 1].width / 2f, testList[i].x - testList[i].width / 2f);
-                    Debug.Log($"Result width {result.width}     tmp width {tmpPlace.width}");
                     if (result.width < tmpPlace.width)
                         result = tmpPlace;
                 }
             }
-            Debug.Log($"Width resul {result.width}");
             return result;
         }
     }
